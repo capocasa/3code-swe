@@ -1,0 +1,50 @@
+# LiteLLM pass-through counting proxy.
+# Relays to Z.ai and captures the usage object verbatim. Does not recompute
+# token counts. Zero header mutation (Z.ai implicit content-based caching).
+
+model_list:
+  - model_name: glm-5.2
+    litellm_params:
+      model: openai/glm-5.2
+      api_base: https://api.z.ai/api/paas/v4
+      api_key: os.environ/ZAI_KEY
+  - model_name: glm-5.3
+    litellm_params:
+      model: openai/glm-5.3
+      api_base: https://api.z.ai/api/paas/v4
+      api_key: os.environ/ZAI_KEY
+      # glm-5.3 requires thinking; clients that send nothing get it injected.
+      merge_reasoning_content_in_choices: true
+  - model_name: glm-5.3-flash
+    litellm_params:
+      model: openai/glm-5.3-flash
+      api_base: https://api.z.ai/api/paas/v4
+      api_key: os.environ/ZAI_KEY
+      merge_reasoning_content_in_choices: true
+  - model_name: glm-5.3-max
+    litellm_params:
+      model: openai/glm-5.3
+      api_base: https://api.z.ai/api/paas/v4
+      api_key: os.environ/ZAI_KEY
+      thinking: {"type": "enabled"}
+      reasoning_effort: max
+
+  # Anthropic-protocol alias for Claude Code. Point it at
+  # ANTHROPIC_BASE_URL=http://localhost:4000 and use this model name.
+  - model_name: claude-glm-5.3
+    litellm_params:
+      model: anthropic/glm-5.3
+      api_base: https://api.z.ai/api/anthropic
+      api_key: os.environ/ZAI_KEY
+
+litellm_settings:
+  # Custom callbacks must be objects, not class-name strings.
+  callbacks: "usage_logger.usage_logger"
+  drop_params: false
+  request_timeout: 600
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  # Forces stream_options.include_usage so the final-chunk usage object
+  # is always captured (LiteLLM issue #12970).
+  always_include_stream_usage: true

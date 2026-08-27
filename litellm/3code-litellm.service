@@ -1,0 +1,14 @@
+[Unit]
+Description=LiteLLM counting proxy for 3code-swe (Z.ai pass-through)
+
+[Service]
+EnvironmentFile=%h/.local/share/3code-litellm/env
+WorkingDirectory=%h/.local/share/3code-litellm
+ExecStart=%h/.local/share/3code-litellm/bin/litellm --config config.yaml --host 127.0.0.1 --port 4000
+Restart=on-failure
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
