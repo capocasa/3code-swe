@@ -1,0 +1,102 @@
+date	task_id	agent	model	input_excl_cached	cached	output
+2026-07-20	sympy__sympy-23534	3code	glm-5.2	5736		2384
+2026-08-22	astropy__astropy-14369	3code	glm-5.3	1557704		20925
+2026-08-22	django__django-15037	3code	glm-5.3	467390		8046
+2026-08-22	django__django-15368	3code	glm-5.3	126824		3418
+2026-08-22	matplotlib__matplotlib-26342	3code	glm-5.3	171840		3443
+2026-08-22	psf__requests-1766	3code	glm-5.3	28359		1145
+2026-08-22	pydata__xarray-6461	3code	glm-5.3	333917		6451
+2026-08-22	pytest-dev__pytest-7236	3code	glm-5.3	638398		12911
+2026-08-22	scikit-learn__scikit-learn-14087	3code	glm-5.3	350068		8377
+2026-08-22	sphinx-doc__sphinx-8056	3code	glm-5.3	423004		5334
+2026-08-22	sympy__sympy-23534	3code	glm-5.3	40105		1701
+2026-08-22	astropy__astropy-14369	opencode	glm-5.3	1454174		18654
+2026-08-22	django__django-15037	opencode	glm-5.3	614120		13544
+2026-08-22	django__django-15368	opencode	glm-5.3	191677		3453
+2026-08-22	matplotlib__matplotlib-26342	opencode	glm-5.3	963618		7972
+2026-08-22	psf__requests-1766	opencode	glm-5.3	23560		509
+2026-08-22	pydata__xarray-6461	opencode	glm-5.3	712398		9265
+2026-08-22	pytest-dev__pytest-7236	opencode	glm-5.3	874535		15139
+2026-08-22	scikit-learn__scikit-learn-14087	opencode	glm-5.3	146069		3061
+2026-08-22	sphinx-doc__sphinx-8056	opencode	glm-5.3	1638918		15042
+2026-08-22	sympy__sympy-23534	opencode	glm-5.3	64491		1548
+2026-08-22	astropy__astropy-14369	pi	glm-5.3	916181		25735
+2026-08-22	django__django-15037	pi	glm-5.3	274467		6268
+2026-08-22	django__django-15368	pi	glm-5.3	206395		5898
+2026-08-22	matplotlib__matplotlib-26342	pi	glm-5.3	1097843		20296
+2026-08-22	psf__requests-1766	pi	glm-5.3	82125		1342
+2026-08-22	pydata__xarray-6461	pi	glm-5.3	467413		12614
+2026-08-22	pytest-dev__pytest-7236	pi	glm-5.3	811656		20576
+2026-08-22	scikit-learn__scikit-learn-14087	pi	glm-5.3	133360		6619
+2026-08-22	sphinx-doc__sphinx-8056	pi	glm-5.3	487079		16253
+2026-08-22	sympy__sympy-23534	pi	glm-5.3	47131		2106
+2026-08-23	astropy__astropy-14369	hermes	glm-5.3	1494960		18772
+2026-08-23	django__django-15037	hermes	glm-5.3	596666		11907
+2026-08-23	django__django-15368	hermes	glm-5.3	291779		8484
+2026-08-23	matplotlib__matplotlib-26342	hermes	glm-5.3	432451		10790
+2026-08-23	psf__requests-1766	hermes	glm-5.3	117305		2674
+2026-08-23	pydata__xarray-6461	hermes	glm-5.3	426740		4821
+2026-08-23	pytest-dev__pytest-7236	hermes	glm-5.3	1117483		23973
+2026-08-23	scikit-learn__scikit-learn-14087	hermes	glm-5.3	286867		5219
+2026-08-23	sphinx-doc__sphinx-8056	hermes	glm-5.3	1063094		9764
+2026-08-23	sympy__sympy-23534	hermes	glm-5.3	147010		1851
+2026-08-23	astropy__astropy-14369	zcode	glm-5.3	123298		3759
+2026-08-23	django__django-15037	zcode	glm-5.3	425322		13546
+2026-08-23	django__django-15368	zcode	glm-5.3	375779		7715
+2026-08-23	matplotlib__matplotlib-26342	zcode	glm-5.3	273064		7410
+2026-08-23	psf__requests-1766	zcode	glm-5.3	108122		3896
+2026-08-23	pydata__xarray-6461	zcode	glm-5.3	1264168		16339
+2026-08-23	pytest-dev__pytest-7236	zcode	glm-5.3	1339082		18710
+2026-08-23	scikit-learn__scikit-learn-14087	zcode	glm-5.3	200477		7045
+2026-08-23	sphinx-doc__sphinx-8056	zcode	glm-5.3	405548		7809
+2026-08-23	sympy__sympy-23534	zcode	glm-5.3	160511		4400
+2026-08-27	astropy__astropy-14369	3code	glm-5.3-flash	3024	919360	15888
+2026-08-27	django__django-15037	3code	glm-5.3-flash	2742	266752	4880
+2026-08-27	django__django-15368	3code	glm-5.3-flash	-11740	113792	3013
+2026-08-27	matplotlib__matplotlib-26342	3code	glm-5.3-flash	-13509	188224	5201
+2026-08-27	psf__requests-1766	3code	glm-5.3-flash	-4863	32192	2446
+2026-08-27	pydata__xarray-6461	3code	glm-5.3-flash	-5563	304896	4950
+2026-08-27	pytest-dev__pytest-7236	3code	glm-5.3-flash	-5800	670592	8873
+2026-08-27	scikit-learn__scikit-learn-14087	3code	glm-5.3-flash	-7001	157056	4435
+2026-08-27	sphinx-doc__sphinx-8056	3code	glm-5.3-flash	-714	538368	7176
+2026-08-27	sympy__sympy-23534	3code	glm-5.3-flash	-9084	123520	3858
+2026-08-27	astropy__astropy-14369	pi	glm-5.3-flash	8646	305856	6445
+2026-08-27	django__django-15037	pi	glm-5.3-flash	9271	436416	14333
+2026-08-27	django__django-15368	pi	glm-5.3-flash	6722	89216	4097
+2026-08-27	matplotlib__matplotlib-26342	pi	glm-5.3-flash	8102	158848	7745
+2026-08-27	psf__requests-1766	pi	glm-5.3-flash	13607	16512	1660
+2026-08-27	pydata__xarray-6461	pi	glm-5.3-flash	16465	193536	9105
+2026-08-27	pytest-dev__pytest-7236	pi	glm-5.3-flash	3958	334272	9942
+2026-08-27	scikit-learn__scikit-learn-14087	pi	glm-5.3-flash	6146	151168	5016
+2026-08-27	sphinx-doc__sphinx-8056	pi	glm-5.3-flash	4943	271808	9893
+2026-08-27	sympy__sympy-23534	pi	glm-5.3-flash	9970	38144	2573
+2026-08-27	astropy__astropy-14369	zcode	glm-5.3-flash	-172944	667648	9281
+2026-08-27	django__django-15037	zcode	glm-5.3-flash	-108568	580416	17263
+2026-08-27	django__django-15368	zcode	glm-5.3-flash	-112609	247168	4215
+2026-08-27	matplotlib__matplotlib-26342	zcode	glm-5.3-flash	-38074	164224	5454
+2026-08-27	psf__requests-1766	zcode	glm-5.3-flash	-53617	102208	2992
+2026-08-27	pydata__xarray-6461	zcode	glm-5.3-flash	-122066	305600	7576
+2026-08-27	pytest-dev__pytest-7236	zcode	glm-5.3-flash	-221983	814144	14576
+2026-08-27	scikit-learn__scikit-learn-14087	zcode	glm-5.3-flash	-74103	211200	8059
+2026-08-27	sphinx-doc__sphinx-8056	zcode	glm-5.3-flash	-344023	1551552	18817
+2026-08-27	sympy__sympy-23534	zcode	glm-5.3-flash	-75077	174336	4631
+2026-08-27	astropy__astropy-14369	hermes	glm-5.3-flash	-600590	1585728	68154
+2026-08-27	django__django-15037	hermes	glm-5.3-flash	-379537	1067392	26111
+2026-08-27	django__django-15368	hermes	glm-5.3-flash	-169408	308224	28085
+2026-08-27	matplotlib__matplotlib-26342	hermes	glm-5.3-flash	-752843	1868416	25397
+2026-08-27	psf__requests-1766	hermes	glm-5.3-flash	-176281	293696	2417
+2026-08-27	pydata__xarray-6461	hermes	glm-5.3-flash	-258898	452416	12707
+2026-08-27	pytest-dev__pytest-7236	hermes	glm-5.3-flash	-375124	894272	82529
+2026-08-27	scikit-learn__scikit-learn-14087	hermes	glm-5.3-flash	-433906	871936	125008
+2026-08-27	sphinx-doc__sphinx-8056	hermes	glm-5.3-flash	-364797	691200	16836
+2026-08-27	sympy__sympy-23534	hermes	glm-5.3-flash	-88188	176000	6022
+2026-08-27	astropy__astropy-14369	opencode	glm-5.3-flash	-49012	487488	7625
+2026-08-27	django__django-15037	opencode	glm-5.3-flash	-73554	397888	7044
+2026-08-27	django__django-15368	opencode	glm-5.3-flash	-51263	278528	4766
+2026-08-27	matplotlib__matplotlib-26342	opencode	glm-5.3-flash	-39710	256704	4322
+2026-08-27	psf__requests-1766	opencode	glm-5.3-flash	-3475	15488	470
+2026-08-27	pydata__xarray-6461	opencode	glm-5.3-flash	-76817	352768	6121
+2026-08-27	pytest-dev__pytest-7236	opencode	glm-5.3-flash	-108902	817280	9544
+2026-08-27	scikit-learn__scikit-learn-14087	opencode	glm-5.3-flash	-48667	364160	7817
+2026-08-27	sphinx-doc__sphinx-8056	opencode	glm-5.3-flash	-166268	1154752	11366
+2026-08-27	sympy__sympy-23534	opencode	glm-5.3-flash	-30013	97344	1194

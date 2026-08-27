@@ -1,0 +1,25 @@
+# secrets and isolated agent homes (auth.json, api keys, session state)
+agent-home/
+.env
+.env.*
+!.env.example
+
+# local caches and run artifacts
+repos/
+venv/
+logs/
+.3code/
+.sandbox
+
+# compiled harness
+/run
+
+# backups
+*.bak
+*.bak-*
+
+# language junk
+nimcache/
+__pycache__/
+*.pyc
+.python-version

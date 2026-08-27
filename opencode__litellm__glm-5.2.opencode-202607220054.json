@@ -1,0 +1,44 @@
+{
+    "total_instances": 9,
+    "submitted_instances": 9,
+    "completed_instances": 5,
+    "resolved_instances": 5,
+    "unresolved_instances": 0,
+    "empty_patch_instances": 4,
+    "error_instances": 0,
+    "completed_ids": [
+        "django__django-15037",
+        "django__django-15368",
+        "psf__requests-1766",
+        "pydata__xarray-6461",
+        "sphinx-doc__sphinx-8056"
+    ],
+    "incomplete_ids": [],
+    "empty_patch_ids": [
+        "astropy__astropy-14369",
+        "matplotlib__matplotlib-26342",
+        "pytest-dev__pytest-7236",
+        "scikit-learn__scikit-learn-14087"
+    ],
+    "submitted_ids": [
+        "astropy__astropy-14369",
+        "django__django-15037",
+        "django__django-15368",
+        "matplotlib__matplotlib-26342",
+        "psf__requests-1766",
+        "pydata__xarray-6461",
+        "pytest-dev__pytest-7236",
+        "scikit-learn__scikit-learn-14087",
+        "sphinx-doc__sphinx-8056"
+    ],
+    "resolved_ids": [
+        "django__django-15037",
+        "django__django-15368",
+        "psf__requests-1766",
+        "pydata__xarray-6461",
+        "sphinx-doc__sphinx-8056"
+    ],
+    "unresolved_ids": [],
+    "error_ids": [],
+    "schema_version": 2
+}

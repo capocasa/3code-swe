@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>GLM-5.3-Flash 10-task agent benchmark</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">GLM-5.3-Flash 10-task agent benchmark</h1>
+</header>
+<h1
+id="code-vs-pi-vs-opencode-vs-hermes-vs-zcode-10-task-swe-bench-verified-on-glm-5.3-flash">3code
+vs pi vs opencode vs hermes vs zcode: 10-task SWE-bench Verified on
+GLM-5.3-Flash</h1>
+<p>Detailed data for the 10-task subset, third round. All five agents
+routed through the same LiteLLM proxy to Z.ai
+<code>glm-5.3-flash</code>, so every difference reflects the agent
+harness, not the model. Per-task timeout 600s. All agents ran with
+vanilla config. Cached tokens are logged this round (they were dropped
+from streamed responses in the GLM-5.3 run).</p>
+<h2 id="scorecard">Scorecard</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>instance_id</th>
+<th>band</th>
+<th>3code</th>
+<th>pi</th>
+<th>opencode</th>
+<th>hermes</th>
+<th>zcode</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>sympy__sympy-23534</td>
+<td>easy</td>
+<td>resolved</td>
+<td>error</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>pydata__xarray-6461</td>
+<td>easy</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>unresolved</td>
+<td>resolved</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>django__django-15368</td>
+<td>easy</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>psf__requests-1766</td>
+<td>easy</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>matplotlib__matplotlib-26342</td>
+<td>medium</td>
+<td>empty (timeout)</td>
+<td>empty (timeout)</td>
+<td>empty (timeout)</td>
+<td>empty (timeout)</td>
+<td>empty</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>django__django-15037</td>
+<td>medium</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>scikit-learn__scikit-learn-14087</td>
+<td>medium</td>
+<td>empty (timeout)</td>
+<td>empty (timeout)</td>
+<td>unresolved</td>
+<td>empty (timeout)</td>
+<td>unresolved</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>pytest-dev__pytest-7236</td>
+<td>medium</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>empty (timeout)</td>
+<td>resolved</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>sphinx-doc__sphinx-8056</td>
+<td>medium</td>
+<td>error</td>
+<td>resolved</td>
+<td>resolved</td>
+<td>unresolved</td>
+<td>resolved</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>astropy__astropy-14369</td>
+<td>hard</td>
+<td>empty (timeout)</td>
+<td>empty (timeout)</td>
+<td>empty (timeout)</td>
+<td>empty (timeout)</td>
+<td>empty (timeout)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td><strong>6/10</strong></td>
+<td><strong>6/10</strong></td>
+<td><strong>7/10</strong></td>
+<td><strong>4/10</strong></td>
+<td><strong>7/10</strong></td>
+</tr>
+</tbody>
+</table>
+<p>“empty (timeout)” means the 600s cap was hit without a diff; “empty”
+means the agent finished early with no patch; “unresolved” means a patch
+was produced but the task tests failed; “error” means the harness raised
+during evaluation of a non-empty patch.</p>
+<p>psf__requests-1766, unresolved for four of five agents on GLM-5.3, is
+resolved by all five here. Nobody resolved matplotlib, scikit-learn, or
+astropy. No rate-limit retries this round; each agent ran once,
+sequentially.</p>
+<h2 id="batch-totals-all-10-tasks">Batch totals (all 10 tasks)</h2>
+<p>Input is Z.ai <code>prompt_tokens</code>. Cached is
+<code>prompt_tokens_details.cached_tokens</code>, logged this round.
+Cached is a view of the prompt, not an extra addend: total = input +
+output. Z.ai often reports cached slightly above prompt (cache-block
+rounding), so <code>input - cached</code> can go negative and is not
+used as a billed-cost column.</p>
+<table>
+<thead>
+<tr class="header">
+<th>agent</th>
+<th>input</th>
+<th>cached</th>
+<th>output</th>
+<th>total tokens</th>
+<th>resolved</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>pi</td>
+<td>2,083,606</td>
+<td>1,995,776</td>
+<td>70,809</td>
+<td>2,154,415</td>
+<td>6/10</td>
+</tr>
+<tr class="even">
+<td>3code</td>
+<td>3,262,244</td>
+<td>3,314,752</td>
+<td>60,720</td>
+<td>3,322,964</td>
+<td>6/10</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>3,495,432</td>
+<td>4,818,496</td>
+<td>92,864</td>
+<td>3,588,296</td>
+<td>7/10</td>
+</tr>
+<tr class="even">
+<td>opencode</td>
+<td>3,574,719</td>
+<td>4,222,400</td>
+<td>60,269</td>
+<td>3,634,988</td>
+<td>7/10</td>
+</tr>
+<tr class="odd">
+<td>hermes</td>
+<td>4,609,708</td>
+<td>8,209,280</td>
+<td>393,266</td>
+<td>5,002,974</td>
+<td>4/10</td>
+</tr>
+</tbody>
+</table>
+<p>Same table as a percentage of the median agent (zcode):</p>
+<table>
+<thead>
+<tr class="header">
+<th>agent</th>
+<th>total tokens</th>
+<th>% of median</th>
+<th>resolved</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>pi</td>
+<td>2,154,415</td>
+<td>60.0%</td>
+<td>6/10</td>
+</tr>
+<tr class="even">
+<td>3code</td>
+<td>3,322,964</td>
+<td>92.6%</td>
+<td>6/10</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>3,588,296</td>
+<td>100.0%</td>
+<td>7/10</td>
+</tr>
+<tr class="even">
+<td>opencode</td>
+<td>3,634,988</td>
+<td>101.3%</td>
+<td>7/10</td>
+</tr>
+<tr class="odd">
+<td>hermes</td>
+<td>5,002,974</td>
+<td>139.4%</td>
+<td>4/10</td>
+</tr>
+</tbody>
+</table>
+<p>zcode and opencode tie at 7/10 on nearly the same token budget. pi is
+the cheap 6/10: 40% below the median, 1.5x less input than 3code, same
+resolved count. hermes spent the most and resolved the least; 4x the
+GLM-5.3 output, almost all of it on tasks it timed out or failed
+(scikit-learn 125K, pytest 83K, astropy 68K).</p>
+<p>Prompt tokens are down versus the GLM-5.3 round for every agent (pi
+46% of its 5.3 input, opencode 53%, 3code 79%). Treat that as
+directional: flash is a different model, and cache reporting now lets us
+see that most of the prompt was served from cache.</p>
+<h2 id="per-task-detail">Per-task detail</h2>
+<p>Diff lines and wall time are from the agent run. Tokens: input
+(<code>prompt_tokens</code>) / cached / output.</p>
+<h3 id="sympy__sympy-23534-easy">sympy__sympy-23534 (easy)</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>resolved</th>
+<th>diff lines</th>
+<th>time</th>
+<th>input</th>
+<th>cached</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3code</td>
+<td>resolved</td>
+<td>13</td>
+<td>156s</td>
+<td>114,436</td>
+<td>123,520</td>
+<td>3,858</td>
+</tr>
+<tr class="even">
+<td>pi</td>
+<td>error</td>
+<td>13</td>
+<td>67s</td>
+<td>48,114</td>
+<td>38,144</td>
+<td>2,573</td>
+</tr>
+<tr class="odd">
+<td>opencode</td>
+<td>resolved</td>
+<td>13</td>
+<td>39s</td>
+<td>67,331</td>
+<td>97,344</td>
+<td>1,194</td>
+</tr>
+<tr class="even">
+<td>hermes</td>
+<td>resolved</td>
+<td>13</td>
+<td>72s</td>
+<td>87,812</td>
+<td>176,000</td>
+<td>6,022</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>resolved</td>
+<td>13</td>
+<td>152s</td>
+<td>99,259</td>
+<td>174,336</td>
+<td>4,631</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pydata__xarray-6461-easy">pydata__xarray-6461 (easy)</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>resolved</th>
+<th>diff lines</th>
+<th>time</th>
+<th>input</th>
+<th>cached</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3code</td>
+<td>resolved</td>
+<td>13</td>
+<td>187s</td>
+<td>299,333</td>
+<td>304,896</td>
+<td>4,950</td>
+</tr>
+<tr class="even">
+<td>pi</td>
+<td>resolved</td>
+<td>13</td>
+<td>296s</td>
+<td>210,001</td>
+<td>193,536</td>
+<td>9,105</td>
+</tr>
+<tr class="odd">
+<td>opencode</td>
+<td>resolved</td>
+<td>13</td>
+<td>272s</td>
+<td>275,951</td>
+<td>352,768</td>
+<td>6,121</td>
+</tr>
+<tr class="even">
+<td>hermes</td>
+<td>unresolved</td>
+<td>13</td>
+<td>180s</td>
+<td>193,518</td>
+<td>452,416</td>
+<td>12,707</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>resolved</td>
+<td>13</td>
+<td>242s</td>
+<td>183,534</td>
+<td>305,600</td>
+<td>7,576</td>
+</tr>
+</tbody>
+</table>
+<h3 id="django__django-15368-easy">django__django-15368 (easy)</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>resolved</th>
+<th>diff lines</th>
+<th>time</th>
+<th>input</th>
+<th>cached</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3code</td>
+<td>resolved</td>
+<td>22</td>
+<td>139s</td>
+<td>102,052</td>
+<td>113,792</td>
+<td>3,013</td>
+</tr>
+<tr class="even">
+<td>pi</td>
+<td>resolved</td>
+<td>22</td>
+<td>139s</td>
+<td>95,938</td>
+<td>89,216</td>
+<td>4,097</td>
+</tr>
+<tr class="odd">
+<td>opencode</td>
+<td>resolved</td>
+<td>13</td>
+<td>155s</td>
+<td>227,265</td>
+<td>278,528</td>
+<td>4,766</td>
+</tr>
+<tr class="even">
+<td>hermes</td>
+<td>resolved</td>
+<td>22</td>
+<td>135s</td>
+<td>138,816</td>
+<td>308,224</td>
+<td>28,085</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>resolved</td>
+<td>22</td>
+<td>153s</td>
+<td>134,559</td>
+<td>247,168</td>
+<td>4,215</td>
+</tr>
+</tbody>
+</table>
+<h3 id="psf__requests-1766-easy">psf__requests-1766 (easy)</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>resolved</th>
+<th>diff lines</th>
+<th>time</th>
+<th>input</th>
+<th>cached</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3code</td>
+<td>resolved</td>
+<td>13</td>
+<td>72s</td>
+<td>27,329</td>
+<td>32,192</td>
+<td>2,446</td>
+</tr>
+<tr class="even">
+<td>pi</td>
+<td>resolved</td>
+<td>13</td>
+<td>47s</td>
+<td>30,119</td>
+<td>16,512</td>
+<td>1,660</td>
+</tr>
+<tr class="odd">
+<td>opencode</td>
+<td>resolved</td>
+<td>13</td>
+<td>24s</td>
+<td>12,013</td>
+<td>15,488</td>
+<td>470</td>
+</tr>
+<tr class="even">
+<td>hermes</td>
+<td>resolved</td>
+<td>13</td>
+<td>59s</td>
+<td>117,415</td>
+<td>293,696</td>
+<td>2,417</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>resolved</td>
+<td>13</td>
+<td>94s</td>
+<td>48,591</td>
+<td>102,208</td>
+<td>2,992</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="matplotlib__matplotlib-26342-medium">matplotlib__matplotlib-26342
+(medium)</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>resolved</th>
+<th>diff lines</th>
+<th>time</th>
+<th>input</th>
+<th>cached</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3code</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>604s</td>
+<td>174,715</td>
+<td>188,224</td>
+<td>5,201</td>
+</tr>
+<tr class="even">
+<td>pi</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>604s</td>
+<td>166,950</td>
+<td>158,848</td>
+<td>7,745</td>
+</tr>
+<tr class="odd">
+<td>opencode</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>603s</td>
+<td>216,994</td>
+<td>256,704</td>
+<td>4,322</td>
+</tr>
+<tr class="even">
+<td>hermes</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>604s</td>
+<td>1,115,573</td>
+<td>1,868,416</td>
+<td>25,397</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>empty</td>
+<td>0</td>
+<td>144s</td>
+<td>126,150</td>
+<td>164,224</td>
+<td>5,454</td>
+</tr>
+</tbody>
+</table>
+<h3 id="django__django-15037-medium">django__django-15037 (medium)</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>resolved</th>
+<th>diff lines</th>
+<th>time</th>
+<th>input</th>
+<th>cached</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3code</td>
+<td>resolved</td>
+<td>24</td>
+<td>144s</td>
+<td>269,494</td>
+<td>266,752</td>
+<td>4,880</td>
+</tr>
+<tr class="even">
+<td>pi</td>
+<td>resolved</td>
+<td>24</td>
+<td>486s</td>
+<td>445,687</td>
+<td>436,416</td>
+<td>14,333</td>
+</tr>
+<tr class="odd">
+<td>opencode</td>
+<td>resolved</td>
+<td>24</td>
+<td>247s</td>
+<td>324,334</td>
+<td>397,888</td>
+<td>7,044</td>
+</tr>
+<tr class="even">
+<td>hermes</td>
+<td>resolved</td>
+<td>24</td>
+<td>405s</td>
+<td>687,855</td>
+<td>1,067,392</td>
+<td>26,111</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>resolved</td>
+<td>24</td>
+<td>461s</td>
+<td>471,848</td>
+<td>580,416</td>
+<td>17,263</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="scikit-learn__scikit-learn-14087-medium">scikit-learn__scikit-learn-14087
+(medium)</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>resolved</th>
+<th>diff lines</th>
+<th>time</th>
+<th>input</th>
+<th>cached</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3code</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>602s</td>
+<td>150,055</td>
+<td>157,056</td>
+<td>4,435</td>
+</tr>
+<tr class="even">
+<td>pi</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>602s</td>
+<td>157,314</td>
+<td>151,168</td>
+<td>5,016</td>
+</tr>
+<tr class="odd">
+<td>opencode</td>
+<td>unresolved</td>
+<td>13</td>
+<td>212s</td>
+<td>315,493</td>
+<td>364,160</td>
+<td>7,817</td>
+</tr>
+<tr class="even">
+<td>hermes</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>602s</td>
+<td>438,030</td>
+<td>871,936</td>
+<td>125,008</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>unresolved</td>
+<td>13</td>
+<td>196s</td>
+<td>137,097</td>
+<td>211,200</td>
+<td>8,059</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pytest-dev__pytest-7236-medium">pytest-dev__pytest-7236
+(medium)</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>resolved</th>
+<th>diff lines</th>
+<th>time</th>
+<th>input</th>
+<th>cached</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3code</td>
+<td>resolved</td>
+<td>40</td>
+<td>305s</td>
+<td>664,792</td>
+<td>670,592</td>
+<td>8,873</td>
+</tr>
+<tr class="even">
+<td>pi</td>
+<td>resolved</td>
+<td>25</td>
+<td>360s</td>
+<td>338,230</td>
+<td>334,272</td>
+<td>9,942</td>
+</tr>
+<tr class="odd">
+<td>opencode</td>
+<td>resolved</td>
+<td>40</td>
+<td>433s</td>
+<td>708,378</td>
+<td>817,280</td>
+<td>9,544</td>
+</tr>
+<tr class="even">
+<td>hermes</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>601s</td>
+<td>519,148</td>
+<td>894,272</td>
+<td>82,529</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>resolved</td>
+<td>40</td>
+<td>498s</td>
+<td>592,161</td>
+<td>814,144</td>
+<td>14,576</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sphinx-doc__sphinx-8056-medium">sphinx-doc__sphinx-8056
+(medium)</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>resolved</th>
+<th>diff lines</th>
+<th>time</th>
+<th>input</th>
+<th>cached</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3code</td>
+<td>error</td>
+<td>51</td>
+<td>216s</td>
+<td>537,654</td>
+<td>538,368</td>
+<td>7,176</td>
+</tr>
+<tr class="even">
+<td>pi</td>
+<td>resolved</td>
+<td>39</td>
+<td>247s</td>
+<td>276,751</td>
+<td>271,808</td>
+<td>9,893</td>
+</tr>
+<tr class="odd">
+<td>opencode</td>
+<td>resolved</td>
+<td>38</td>
+<td>596s</td>
+<td>988,484</td>
+<td>1,154,752</td>
+<td>11,366</td>
+</tr>
+<tr class="even">
+<td>hermes</td>
+<td>unresolved</td>
+<td>33</td>
+<td>278s</td>
+<td>326,403</td>
+<td>691,200</td>
+<td>16,836</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>resolved</td>
+<td>51</td>
+<td>474s</td>
+<td>1,207,529</td>
+<td>1,551,552</td>
+<td>18,817</td>
+</tr>
+</tbody>
+</table>
+<h3 id="astropy__astropy-14369-hard">astropy__astropy-14369 (hard)</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>resolved</th>
+<th>diff lines</th>
+<th>time</th>
+<th>input</th>
+<th>cached</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3code</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>602s</td>
+<td>922,384</td>
+<td>919,360</td>
+<td>15,888</td>
+</tr>
+<tr class="even">
+<td>pi</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>602s</td>
+<td>314,502</td>
+<td>305,856</td>
+<td>6,445</td>
+</tr>
+<tr class="odd">
+<td>opencode</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>602s</td>
+<td>438,476</td>
+<td>487,488</td>
+<td>7,625</td>
+</tr>
+<tr class="even">
+<td>hermes</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>602s</td>
+<td>985,138</td>
+<td>1,585,728</td>
+<td>68,154</td>
+</tr>
+<tr class="odd">
+<td>zcode</td>
+<td>empty (timeout)</td>
+<td>0</td>
+<td>602s</td>
+<td>494,704</td>
+<td>667,648</td>
+<td>9,281</td>
+</tr>
+</tbody>
+</table>
+<h2 id="observations">Observations</h2>
+<ul>
+<li><strong>zcode and opencode tie at 7/10.</strong> The extra task
+versus 3code/pi is pytest for zcode (timed out on GLM-5.3) and a clean
+requests + pytest
+<ul>
+<li>sphinx set for opencode. Both produced a 13-line scikit-learn patch
+that failed tests; 3code, pi, and hermes never got that far.</li>
+</ul></li>
+<li><strong>3code is 6/10</strong>, down from 7 on GLM-5.3. matplotlib
+timed out (resolved in 121s on 5.3) and sphinx raised in eval despite a
+51-line patch. Token use is still in the lean cluster, lowest output of
+the five (61K).</li>
+<li><strong>pi matches 3code at 6/10 on 60% of the median
+tokens.</strong> sympy produced a 13-line patch that the harness errored
+on (resolved on 5.3). matplotlib and scikit-learn still timeout.
+Cheapest agent this round, not the highest scoring.</li>
+<li><strong>hermes is 4/10</strong>, down from 6. xarray and sphinx
+patches failed tests; pytest, matplotlib, scikit-learn, and astropy
+timed out. Output is the outlier: 393K, 4x its GLM-5.3 figure,
+concentrated on the failures.</li>
+<li><strong>The three tasks nobody solved</strong> are the same slow
+local-build cluster as before: matplotlib, scikit-learn, astropy. zcode
+is the one matplotlib exception in form, not result: it stopped at 144s
+with an empty patch instead of burning the full 600s.</li>
+<li>**psf__requests-1766 flipped back.** Unresolved for four of five on
+GLM-5.3, resolved by all five on flash. That 5.3 dip reads as
+model-level, not harness.</li>
+<li><strong>Cached tokens dominate the prompt.</strong> Once the logger
+stopped dropping stream details, every agent shows cached on the same
+order as input (often slightly above it, Z.ai block rounding). The
+GLM-5.3 input totals were an upper bound on billed cost; this round
+makes that visible rather than assumed.</li>
+<li><strong>GLM-5.3-Flash vs GLM-5.3 on the same harness:</strong>
+prompt tokens down for every agent, resolved count up for zcode and
+opencode (6 to 7), down for 3code (7 to 6) and hermes (6 to 4), flat for
+pi. Small sample, treat as directional only.</li>
+</ul>
+<h2 id="the-agents-that-didnt-run">The agents that didn’t run</h2>
+<ul>
+<li><strong>Claude Code</strong> still speaks only the Anthropic
+Messages protocol. Z.ai’s Anthropic endpoint remains gated on the GLM
+Coding Plan, which is expired on this account. Same blocker as the
+GLM-5.3 round.</li>
+</ul>
+<h2 id="methodology">Methodology</h2>
+<p>Same as the GLM-5.3 round: SWE-bench Verified harness for evaluation,
+patches extracted as <code>git diff HEAD</code> from a fresh clone at
+the task’s base commit, per-task 600s timeout, agents run once per task.
+Token counts come from the LiteLLM proxy’s usage log, which captures
+Z.ai’s <code>usage</code> object verbatim per request (pass-through, no
+recomputation). Cached tokens are included this round: the proxy now
+keeps <code>prompt_tokens_details</code> on streamed responses (LiteLLM
+1.97.0 had been dropping the OpenAI SDK <code>PromptTokensDetails</code>
+object during stream assembly). GLM-5.3-Flash uses the same
+thinking-required hook as GLM-5.3; the proxy injects
+<code>thinking: {type: enabled}</code> before relaying.</p>
+<p>Token windows are reconstructed from per-task timing in the run logs
+plus sequential agent order. usage-20260827.jsonl lines: 3code 1-255, pi
+256-482, zcode 483-701, hermes 702-977, opencode 978-1222. Wall clock:
+3code ~50.5 min, pi ~57.5 min, zcode ~50.3 min, hermes ~59.0 min,
+opencode ~53.1 min.</p>
+</body>
+</html>
